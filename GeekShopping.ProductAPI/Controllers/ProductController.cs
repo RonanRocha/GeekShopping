@@ -32,7 +32,7 @@ namespace GeekShopping.ProductAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(ProductVO productVO)
+        public async Task<IActionResult> Create([FromBody] ProductVO productVO)
         {
             try
             {
@@ -47,13 +47,11 @@ namespace GeekShopping.ProductAPI.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(ProductVO productVO)
+        public async Task<IActionResult> Update([FromBody] ProductVO productVO)
         {
             try
             {
-                ProductVO product = await _repository.FindById(productVO.Id);
-                if (product == null) return NotFound();
-                product = await _repository.Update(productVO);
+                ProductVO product = await _repository.Update(productVO);
                 return Ok(product);
 
             }

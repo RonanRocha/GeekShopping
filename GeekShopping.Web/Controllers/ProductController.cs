@@ -29,11 +29,10 @@ namespace GeekShopping.Web.Controllers
              
         }
 
-        [Authorize]
         public async Task<IActionResult> Index()
         {
-            var token = await GetToken();
-            var products = await _service.FindAllProducts(token);
+           
+            var products = await _service.FindAllProducts();
             return View(products);
         }
 

@@ -1,4 +1,5 @@
 ﻿using GeekShopping.Web.Models;
+using GeekShopping.Web.Services.IServices;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,14 +11,41 @@ namespace GeekShopping.Web.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IProductService _service;
+
+        public HomeController(ILogger<HomeController> logger, IProductService service)
         {
             _logger = logger;
+            _service = service;
         }
 
-        public IActionResult Index()
+        private async Task<string> GetToken()
         {
-            return View();
+
+
+            var token = await HttpContext.GetTokenAsync("access_token");
+            return token;
+
+
+
+        }
+
+        public async Task<IActionResult> Index()
+        {
+ 
+            var products = await _service.FindAllProducts();
+            return View(products);
+        }
+
+
+        [Authorize]
+        public async Task<IActionResult> Details(int id)
+        {
+
+            var token = await  GetToken();
+            var product = await _service.FindProductById(id, token);
+            return View(product);
+
         }
 
         public IActionResult Privacy()

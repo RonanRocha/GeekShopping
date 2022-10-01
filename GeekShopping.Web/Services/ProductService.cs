@@ -34,9 +34,9 @@ namespace GeekShopping.Web.Services
             return await response.ReadContentAs<bool>();
         }
 
-        public async Task<IEnumerable<ProductViewModel>> FindAllProducts(string token)
+        public async Task<IEnumerable<ProductViewModel>> FindAllProducts()
         {
-            SetToken(token);
+           
             var response = await _httpClient.GetAsync(BasePath);
             if (!response.IsSuccessStatusCode) throw new Exception("Something went wrong calling the API");
             return await response.ReadContentAs<List<ProductViewModel>>();

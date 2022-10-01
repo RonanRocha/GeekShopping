@@ -1,6 +1,7 @@
 ﻿using GeekShopping.Web.Models;
 using GeekShopping.Web.Services.IServices;
 using GeekShopping.Web.Utils;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,19 +11,34 @@ namespace GeekShopping.Web.Controllers
     {
         private readonly IProductService _service;
 
+
+
         public ProductController(IProductService service)
         {
             _service = service;
         }
 
+        private async Task<string> GetToken()
+        {
+
+
+            var token = await HttpContext.GetTokenAsync("access_token");
+            return token;
+
+ 
+             
+        }
+
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            var products = await _service.FindAllProducts();
+            var token = await GetToken();
+            var products = await _service.FindAllProducts(token);
             return View(products);
         }
 
         [Authorize]
+        [HttpGet]
         public async Task<IActionResult> Create()
         {
             return View();
@@ -31,7 +47,8 @@ namespace GeekShopping.Web.Controllers
         [Authorize]
         public async Task<IActionResult> Update(int id)
         {
-            var product = await _service.FindProductById(id);
+            var token = await GetToken();
+            var product = await _service.FindProductById(id,token);
             if(product == null) return NotFound();
             return View(product);
         }
@@ -42,7 +59,8 @@ namespace GeekShopping.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var response = await _service.UpdateProduct(productVm);
+                var token = await GetToken();
+                var response = await _service.UpdateProduct(productVm,token);
                 if (response != null) return RedirectToAction(nameof(Index));
 
             }
@@ -56,7 +74,8 @@ namespace GeekShopping.Web.Controllers
         {
             if(ModelState.IsValid)
             {
-                var response = await _service.CreateProduct(productVm);
+                var token = await GetToken();
+                var response = await _service.CreateProduct(productVm, token);
                 if (response != null) return RedirectToAction(nameof(Index));
                 
             }
@@ -68,7 +87,8 @@ namespace GeekShopping.Web.Controllers
         [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
-            var product = await _service.FindProductById(id);
+            var token = await GetToken();
+            var product = await _service.FindProductById(id, token);
             if (product == null) return NotFound();
             return View(product);
         }
@@ -79,7 +99,8 @@ namespace GeekShopping.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var response = await _service.DeleteProduct(productVm.Id);
+                var token = await GetToken();
+                var response = await _service.DeleteProduct(productVm.Id, token);
                 if (response) return RedirectToAction(nameof(Index));
 
             }

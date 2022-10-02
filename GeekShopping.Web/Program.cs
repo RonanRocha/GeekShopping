@@ -27,8 +27,12 @@ builder.Services.AddAuthentication(options =>
         opt.Scope.Add("geek_shopping");
         opt.SaveTokens = true;
     });
+
 builder.Services.AddHttpClient<IProductService, ProductService>(
     c => c.BaseAddress = new Uri(builder.Configuration["ServicesUrls:ProductApi"]));
+
+builder.Services.AddHttpClient<ICartService, CartService>(
+    c => c.BaseAddress = new Uri(builder.Configuration["ServicesUrls:CartApi"]));
 
 var app = builder.Build();
 

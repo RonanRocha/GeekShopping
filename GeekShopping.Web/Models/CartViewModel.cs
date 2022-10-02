@@ -1,4 +1,5 @@
-﻿namespace GeekShopping.Web.Models;
+﻿namespace GeekShopping.Web.Models
+{
     public class CartViewModel
     {
         public CartHeaderViewModel CartHeaderVO { get; set; }

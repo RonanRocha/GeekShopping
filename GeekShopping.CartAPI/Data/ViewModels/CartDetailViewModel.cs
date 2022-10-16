@@ -2,16 +2,16 @@
 using GeekShopping.CartAPI.Model.Context;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace GeekShopping.CartAPI.Data.ValueObjects
+namespace GeekShopping.CartAPI.Data.ViewModels
 {
    
-    public class CartDetailVO 
+    public class CartDetailViewModel 
     {
         public int Id { get; set; }
         public int ProductId { get; set; } 
         public int CartHeaderId { get; set; }
-        public CartHeaderVO CartHeader  { get; set; }
-        public ProductVO  Product { get; set; }
-        public int Count { get; set; }
+        public CartHeaderViewModel? CartHeader  { get; set; }
+        public ProductViewModel?  Product { get; set; }
+        public int? Count { get; set; }
     }
 }

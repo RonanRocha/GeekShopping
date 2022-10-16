@@ -1,5 +1,4 @@
-﻿using GeekShopping.CartAPI.Model.Base;
-using GeekShopping.CartAPI.Model.Context;
+﻿
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GeekShopping.Web.Models

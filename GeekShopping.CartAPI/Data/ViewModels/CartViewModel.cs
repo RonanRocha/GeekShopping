@@ -1,4 +1,4 @@
-﻿namespace GeekShopping.Web.Models
+﻿namespace GeekShopping.CartAPI.Data.ViewModels
 {
     public class CartViewModel
     {

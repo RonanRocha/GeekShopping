@@ -2,10 +2,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace GeekShopping.CartAPI.Data.ValueObjects
+namespace GeekShopping.CartAPI.Data.ViewModels
 {
    
-    public class ProductVO 
+    public class ProductViewModel
     {    
         public int Id { get; set; }
         public string Name { get; set; }

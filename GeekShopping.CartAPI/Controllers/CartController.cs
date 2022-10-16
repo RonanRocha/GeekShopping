@@ -1,11 +1,12 @@
-﻿using GeekShopping.CartAPI.Data.ValueObjects;
+﻿using GeekShopping.CartAPI.Data.ViewModels;
 using GeekShopping.CartAPI.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GeekShopping.CartAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class CartController : ControllerBase
     {
@@ -19,7 +20,8 @@ namespace GeekShopping.CartAPI.Controllers
         }
 
         [HttpGet("find-cart/{id}")]
-        public async Task<ActionResult<CartVO>> FindById(string userId)
+        [Authorize]
+        public async Task<ActionResult<CartViewModel>> FindById(string userId)
         {
             var cart = await _repository.FindCartByUserId(userId);
             if (cart == null) return NotFound();
@@ -27,7 +29,8 @@ namespace GeekShopping.CartAPI.Controllers
         }
 
         [HttpPost("add-cart")]
-        public async Task<ActionResult<CartVO>> AddCart(CartVO vo)
+        [Authorize]
+        public async Task<ActionResult<CartViewModel>> AddCart([FromBody] CartViewModel vo)
         {
             var cart = await _repository.SaveOrUpdateCart(vo);
             if (cart == null) return NotFound();
@@ -35,7 +38,8 @@ namespace GeekShopping.CartAPI.Controllers
         }
 
         [HttpPut("update-cart")]
-        public async Task<ActionResult<CartVO>> UpdateCart(CartVO vo)
+        [Authorize]
+        public async Task<ActionResult<CartViewModel>> UpdateCart([FromBody] CartViewModel vo)
         {
             var cart = await _repository.SaveOrUpdateCart(vo);
             if (cart == null) return NotFound();
@@ -43,7 +47,8 @@ namespace GeekShopping.CartAPI.Controllers
         }
 
         [HttpDelete("remove-cart/{id}")]
-        public async Task<ActionResult<CartVO>> RemoveCart(int id)
+        [Authorize]
+        public async Task<ActionResult<CartViewModel>> RemoveCart(int id)
         {
             var status = await _repository.RemoveFromCart(id);
             if (!status) return BadRequest();

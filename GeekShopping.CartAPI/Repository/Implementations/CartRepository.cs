@@ -40,16 +40,40 @@ namespace GeekShopping.CartAPI.Repository.Implementations
 
         public async Task<CartViewModel> FindCartByUserId(string userId)
         {
-            Cart cart = new()
-            {
-                CartHeader = await _context.CartHeaders
-                    .FirstOrDefaultAsync(c => c.UserId == userId),
-            };
 
-            cart.CartDetails = _context.CartDetails
-                .Where(c => c.CartHeaderId == cart.CartHeader.Id)
-                    .Include(c => c.Product);
-            return _mapper.Map<CartViewModel>(cart);
+            try
+            {
+
+                CartHeader cartHeader = await _context.CartHeaders
+                 .FirstOrDefaultAsync(c => c.UserId == userId);
+
+                if(cartHeader == null)
+                {
+                    return new CartViewModel
+                    {
+                        CartHeader = null,
+                        CartDetails = new List<CartDetailViewModel>()
+                    };
+                }
+
+                Cart cart = new()
+                {
+                    CartHeader = cartHeader,
+                };
+
+                cart.CartDetails = _context.CartDetails
+                    .Where(c => c.CartHeaderId == cart.CartHeader.Id)
+                        .Include(c => c.Product);
+
+                return _mapper.Map<CartViewModel>(cart);
+
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+         
         }
 
         public async Task<bool> RemoveCoupon(string userId)

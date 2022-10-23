@@ -24,12 +24,8 @@ namespace GeekShopping.Web.Controllers
         private async Task<string> GetToken()
         {
 
-
             var token = await HttpContext.GetTokenAsync("access_token");
             return token;
-
-
-
         }
 
         public async Task<IActionResult> Index()

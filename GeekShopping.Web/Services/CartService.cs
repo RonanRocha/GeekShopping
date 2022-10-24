@@ -2,6 +2,7 @@
 using GeekShopping.Web.Services.IServices;
 using GeekShopping.Web.Utils;
 using System.Net.Http.Headers;
+using System.Runtime.InteropServices;
 
 namespace GeekShopping.Web.Services
 {
@@ -33,7 +34,9 @@ namespace GeekShopping.Web.Services
 
         public async Task<bool> ApplyCoupon(CartViewModel cart, string couponCode, string token)
         {
-            throw new NotImplementedException();
+            SetToken(token);
+            var response = await _httpClient.PostAsJson($"{BasePath}/apply-coupon")
+          
         }
 
         public async Task<CartViewModel> Checkout(CartHeaderViewModel cartHeaderViewModel, string token)

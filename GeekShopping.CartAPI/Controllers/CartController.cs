@@ -37,6 +37,36 @@ namespace GeekShopping.CartAPI.Controllers
             return Ok(cart);
         }
 
+
+        [HttpPost("apply-coupon")]
+        [Authorize]
+        public async Task<ActionResult<CartViewModel>> ApplyCoupon([FromBody] CartViewModel cartViewModel)
+        {
+            string coupon = cartViewModel?.CartHeader?.CouponCode ?? String.Empty;
+            string userId = cartViewModel?.CartHeader?.UserId ?? String.Empty;
+
+            if(String.IsNullOrEmpty(coupon) || String.IsNullOrEmpty(userId))
+            {
+                return BadRequest();
+            }
+
+            var result = await _repository.ApplyCoupon(userId, coupon);
+            if (!result) return NotFound();
+            return Ok(result);
+        }
+
+
+        [HttpPost("remove-coupon/{userId}")]
+        [Authorize]
+        public async Task<ActionResult<CartViewModel>> ApplyCoupon(string userId)
+        {
+          
+            var result = await _repository.RemoveCoupon(userId);
+            if (!result) return NotFound();
+            return Ok(result);
+        }
+
+
         [HttpPut("update-cart")]
         [Authorize]
         public async Task<ActionResult<CartViewModel>> UpdateCart([FromBody] CartViewModel vo)

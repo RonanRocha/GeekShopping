@@ -56,7 +56,7 @@ namespace GeekShopping.CartAPI.Controllers
         }
 
 
-        [HttpPost("remove-coupon/{userId}")]
+        [HttpDelete("remove-coupon/{userId}")]
         [Authorize]
         public async Task<ActionResult<CartViewModel>> ApplyCoupon(string userId)
         {

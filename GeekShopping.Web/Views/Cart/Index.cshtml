@@ -83,7 +83,7 @@
 
                                     </div>
                                     <div class="col-auto">
-                                        <button type="submit" class="btn btn-success mb-3">Apply</button>
+                                        <button type="submit" asp-action="ApplyCoupon" class="btn btn-success mb-3">Apply</button>
                                     </div>
                                 }
                                 else
@@ -94,7 +94,7 @@
 
                                     </div>
                                     <div class="col-auto">
-                                        <button type="submit" class="btn btn-danger mb-3">Remove</button>
+                                        <button type="submit" asp-action="RemoveCoupon" class="btn btn-danger mb-3">Remove</button>
                                     </div>
                                 }
 
@@ -111,6 +111,13 @@
                                 Purchase Amount: @string.Format("{0:c}", Model.CartHeader.PurchaseAmount)
                                 <br />
                             </span>
+                            @if(!String.IsNullOrEmpty(Model.CartHeader.CouponCode)) {
+                                <span class="text-sucess">
+                                     Discount Total: @string.Format("{0:c}", Model.CartHeader.DiscountTotal)
+                                    <br />
+                                </span>
+                            }
+                          
                         </div>
                     </div>
                 </div>

@@ -12,9 +12,15 @@ namespace GeekShopping.Web.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
+        public string CardNumber { get; set; }
         public string CVV { get; set; }
-        public DateTime DateTime { get; set; }
+        public string Phone { get; set; }
+        public DateTime? DateTime { get; set; }
         public string ExpireMonthYear { get; set; }
+        public int CartTotalItens { get; set; }
+        public IEnumerable<CartDetailViewModel>? CartDetails { get; set; }
 
     }
 }
+
+

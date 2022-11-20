@@ -37,7 +37,45 @@ namespace GeekShopping.Web.Controllers
         }
 
 
+
+        [Authorize]
+        public async Task<IActionResult> Checkout()
+        {
+            var cart = await FindUserCart();
+            if (cart == null) return NotFound();
+            return View(cart);
+        }
+
+
+        [Authorize]
+        public async Task<IActionResult> Confirmation()
+        {
+
+            return View();
+        }
+
+
+        [Authorize]
         [HttpPost]
+        public async Task<IActionResult> Checkout(CartViewModel cartVm)
+        {
+            var token = await GetToken();
+           
+
+            var response = await _cartService.Checkout(cartVm.CartHeader, token);
+
+            if (response != null)
+            {
+                return RedirectToAction("Confirmation");
+            }
+
+            return View(cartVm);
+        }
+
+
+
+        [HttpPost]
+        [Authorize]
         public async Task<IActionResult> ApplyCoupon(CartViewModel cartViewModel)
         {
             var token = await GetToken();
@@ -55,6 +93,7 @@ namespace GeekShopping.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> RemoveCoupon()
         {
             var token = await GetToken();

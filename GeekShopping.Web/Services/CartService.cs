@@ -40,9 +40,12 @@ namespace GeekShopping.Web.Services
             return await response.ReadContentAs<bool>();
         }
 
-        public async Task<CartViewModel> Checkout(CartHeaderViewModel cartHeaderViewModel, string token)
+        public async Task<CartHeaderViewModel> Checkout(CartHeaderViewModel cartHeaderViewModel, string token)
         {
-            throw new NotImplementedException();
+            SetToken(token);
+            var response = await _httpClient.PostAsJson($"{BasePath}/checkout", cartHeaderViewModel);
+            if (!response.IsSuccessStatusCode) throw new Exception("Something went wrong calling the API");
+            return await response.ReadContentAs<CartHeaderViewModel>();
         }
 
         public async Task<bool> ClearCart(string userId, string token)
